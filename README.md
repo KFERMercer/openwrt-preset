@@ -1,4 +1,4 @@
-# Openwrt preset schemes.
+# OpenWrt preset schemes.
 
 - Simple.
 - Pro.
