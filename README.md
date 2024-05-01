@@ -13,7 +13,7 @@
 
 1. 
     ```shell
-    <sudo or not> docker build -t openwrt-buildbot  https://raw.githubusercontent.com/KFERMercer/openwrt-preset/master/immortalwrt/openwrt-23.05/buildbot.dockerfile
+    <sudo or not> docker build -t openwrt-buildbot https://raw.githubusercontent.com/KFERMercer/openwrt-preset/master/immortalwrt/openwrt-23.05/buildbot.dockerfile
     ```
 
 2. 
