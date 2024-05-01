@@ -32,7 +32,7 @@ ENV PRESET_REPO="https://github.com/KFERMercer/openwrt-preset.git"
 ENV COREUSE=$(nproc)
 
 CMD  \
-    # && git clone ${PRESET_REPO} --depth=1 openwrt-preset\
+    git clone ${PRESET_REPO} --depth=1 openwrt-preset || exit 1; \
     [ -d $(basename "${OPENWRT_REPO%.git}") ] || git clone ${OPENWRT_REPO} --depth=1 -b ${OPENWRT_BRANCH} || exit 1; \
     cd $(basename "${OPENWRT_REPO%.git}") || exit 1; \
     ./scripts/feeds update -a || exit 1; \

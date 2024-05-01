@@ -13,17 +13,12 @@
 
 1. 
     ```shell
-    git clone https://github.com/KFERMercer/openwrt-preset.git --depth=1
+    <sudo or not> docker build -t openwrt-buildbot  https://raw.githubusercontent.com/KFERMercer/openwrt-preset/master/immortalwrt/openwrt-23.05/buildbot.dockerfile
     ```
 
 2. 
     ```shell
-    <sudo or not> docker build -f openwrt-preset/<openwrt>/<branch>/buildbot.dockerfile -t openwrt-buildbot .
-    ```
-
-3. 
-    ```shell
-    docker run -it --rm \
+    <sudo or not> docker run -it --rm \
     -e COREUSE=$(nproc) \
     -v /path/to/workdir:/work \
     openwrt-buildbot
@@ -36,7 +31,7 @@
 
 1. 
     ```shell
-    git clone <openwrt> --depth=1 -b <branch> && cd <openwrt>
+    git clone https://github.com/immortalwrt/immortalwrt.git --depth=1 -b openwrt-23.05 && cd immortalwrt
 
     ./scripts/feeds update -a
     ```
@@ -48,7 +43,7 @@
 
 3. 
     ```shell
-    patch -p1 -N --verbose --reject-file=/dev/null < ./openwrt-preset/<openwrt>/<branch>/patches/*.patch
+    for i in $(ls ./openwrt-preset/immortalwrt/openwrt-23.05/patches/); do patch -p1 -N --verbose --reject-file=/dev/null < ./openwrt-preset/immortalwrt/openwrt-23.05/patches/$i; done
     ```
 
 4. 
@@ -58,7 +53,7 @@
 
 5. 
     ```shell
-    cp ./<me>/<openwrt>/<branch>/.config ./
+    cat ./openwrt-preset/immortalwrt/openwrt-23.05/x86_64.config > ./.config
 
     make defconfig
     ```
