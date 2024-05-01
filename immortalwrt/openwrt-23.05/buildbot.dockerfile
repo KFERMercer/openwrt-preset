@@ -30,9 +30,11 @@ ENV OPENWRT_REPO="https://github.com/immortalwrt/immortalwrt.git"
 ENV OPENWRT_BRANCH="openwrt-23.05"
 ENV PRESET_REPO="https://github.com/KFERMercer/openwrt-preset.git"
 ENV COREUSE=$(nproc)
+ENV DEVMOD=0
+ENV SHELL=/bin/bash
 
 CMD  \
-    git clone ${PRESET_REPO} --depth=1 openwrt-preset || exit 1; \
+    [ -d $(basename "${PRESET_REPO%.git}") ] || git clone ${PRESET_REPO} --depth=1 || exit 1; \
     [ -d $(basename "${OPENWRT_REPO%.git}") ] || git clone ${OPENWRT_REPO} --depth=1 -b ${OPENWRT_BRANCH} || exit 1; \
     cd $(basename "${OPENWRT_REPO%.git}") || exit 1; \
     ./scripts/feeds update -a || exit 1; \
@@ -41,6 +43,11 @@ CMD  \
     done; \
     ./scripts/feeds install -a || exit 1; \
     cat /work/$(basename "${PRESET_REPO%.git}")/$(basename "${OPENWRT_REPO%.git}")/${OPENWRT_BRANCH}/x86_64.config > ./.config || exit 1; \
-    make defconfig || exit 1; \
-    make download -j8 V=s && make -j$(nproc) || make -j1 V=s || exit 1; \
+    if [ ${DEVMOD} -eq 0 ]; then \
+        make defconfig || exit 1; \
+        make download -j8 V=s && make -j$(nproc) || make -j1 V=s || exit 1; \
+        exit 0; \
+    else \
+        ${SHELL} || exit 1; \
+    fi; \
     exit 0
