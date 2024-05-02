@@ -36,14 +36,14 @@ ENV SHELL=/bin/bash
 CMD  \
     [ -d $(basename "${PRESET_REPO%.git}") ] || git clone ${PRESET_REPO} --depth=1 || exit 1; \
     [ -d $(basename "${OPENWRT_REPO%.git}") ] || git clone ${OPENWRT_REPO} --depth=1 -b ${OPENWRT_BRANCH} || exit 1; \
-    cd $(basename "${OPENWRT_REPO%.git}") || exit 1; \
-    ./scripts/feeds update -a || exit 1; \
-    for i in $(ls /work/$(basename "${PRESET_REPO%.git}")/$(basename "${OPENWRT_REPO%.git}")/${OPENWRT_BRANCH}/patches/); do \
-        patch -p1 -N --verbose --reject-file=/dev/null < /work/$(basename "${PRESET_REPO%.git}")/$(basename "${OPENWRT_REPO%.git}")/${OPENWRT_BRANCH}/patches/$i || exit 1; \
-    done; \
-    ./scripts/feeds install -a || exit 1; \
-    cat /work/$(basename "${PRESET_REPO%.git}")/$(basename "${OPENWRT_REPO%.git}")/${OPENWRT_BRANCH}/x86_64.config > ./.config || exit 1; \
     if [ ${DEVMOD} -eq 0 ]; then \
+        cd $(basename "${OPENWRT_REPO%.git}") || exit 1; \
+        ./scripts/feeds update -a || exit 1; \
+        for i in $(ls /work/$(basename "${PRESET_REPO%.git}")/$(basename "${OPENWRT_REPO%.git}")/${OPENWRT_BRANCH}/patches/); do \
+            patch -p1 -N --verbose --reject-file=/dev/null < /work/$(basename "${PRESET_REPO%.git}")/$(basename "${OPENWRT_REPO%.git}")/${OPENWRT_BRANCH}/patches/$i || exit 1; \
+        done; \
+        ./scripts/feeds install -a || exit 1; \
+        cat /work/$(basename "${PRESET_REPO%.git}")/$(basename "${OPENWRT_REPO%.git}")/${OPENWRT_BRANCH}/x86_64.config > ./.config || exit 1; \
         make defconfig || exit 1; \
         make download -j8 V=s && make -j$(nproc) || make -j1 V=s || exit 1; \
         exit 0; \
