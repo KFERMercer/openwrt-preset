@@ -45,7 +45,7 @@ CMD  \
         ./scripts/feeds install -a || exit 1; \
         cat /work/$(basename "${PRESET_REPO%.git}")/$(basename "${OPENWRT_REPO%.git}")/${OPENWRT_BRANCH}/x86_64.config > ./.config || exit 1; \
         make defconfig || exit 1; \
-        make download -j8 V=s && make -j$(nproc) || make -j1 V=s || exit 1; \
+        make download -j8 V=s && make -j${COREUSE} || make -j${COREUSE} || make -j${COREUSE} || make -j1 V=s || exit 1; \
         exit 0; \
     else \
         ${SHELL} || exit 1; \
