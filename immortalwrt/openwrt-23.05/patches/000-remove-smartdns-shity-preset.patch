@@ -1,0 +1,13 @@
+diff --git a/feeds/packages/net/smartdns/Makefile b/feeds/packages/net/smartdns/Makefile
+index 5606b35..624317c 100644
+--- a/feeds/packages/net/smartdns/Makefile
++++ b/feeds/packages/net/smartdns/Makefile
+@@ -57,7 +57,7 @@ define Package/smartdns/install
+ 	$(INSTALL_CONF) $(PKG_BUILD_DIR)/package/openwrt/blacklist-ip.conf $(1)/etc/smartdns/blacklist-ip.conf
+ 	$(INSTALL_CONF) $(PKG_BUILD_DIR)/package/openwrt/domain-block.list $(1)/etc/smartdns/domain-block.list
+ 	$(INSTALL_CONF) $(PKG_BUILD_DIR)/package/openwrt/domain-forwarding.list $(1)/etc/smartdns/domain-forwarding.list
+-	$(INSTALL_CONF) $(CURDIR)/conf/custom.conf $(1)/etc/smartdns/custom.conf
++	$(INSTALL_CONF) /dev/null $(1)/etc/smartdns/custom.conf
+ 	$(INSTALL_CONF) $(CURDIR)/conf/smartdns.conf $(1)/etc/config/smartdns
+ endef
+ 
