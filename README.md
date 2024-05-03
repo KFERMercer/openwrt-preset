@@ -13,12 +13,12 @@
 
 1. 
     ```shell
-    <sudo or not> docker build -t openwrt-buildbot https://raw.githubusercontent.com/KFERMercer/openwrt-preset/master/immortalwrt/openwrt-23.05/buildbot.dockerfile
+    docker build -t openwrt-buildbot https://raw.githubusercontent.com/KFERMercer/openwrt-preset/master/immortalwrt/openwrt-23.05/buildbot.dockerfile
     ```
 
 2. 
     ```shell
-    <sudo or not> docker run -it --rm \
+    docker run -it --rm \
     -e COREUSE=$(nproc) \
     -v /path/to/workdir:/work \
     openwrt-buildbot
