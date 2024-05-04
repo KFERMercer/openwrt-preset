@@ -13,13 +13,15 @@
 
 1. 
     ```shell
-    docker build -t openwrt-buildbot https://raw.githubusercontent.com/KFERMercer/openwrt-preset/master/immortalwrt/openwrt-23.05/buildbot.dockerfile
+    docker build -t openwrt-buildbot https://raw.githubusercontent.com/KFERMercer/openwrt-preset/master/buildbot.dockerfile
     ```
 
 2. 
     ```shell
     docker run -it --rm \
-    -e COREUSE=$(nproc) \
+    -e COREUSE="$(nproc)" \
+    -e OPENWRT_BRANCH="openwrt-23.05" \
+    -e PRESET_ARCH="x86_64" \
     -v /path/to/workdir:/work \
     openwrt-buildbot
     ```
