@@ -17,7 +17,7 @@ RUN sed -i 's/deb.debian.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.li
         libncursesw5-dev libpython3-dev libreadline-dev libssl-dev libtool lld llvm lrzsz mkisofs msmtp \
         nano ninja-build p7zip-full patch pkgconf python-is-python3 python3-pip python3-ply python3-docutils \
         python3-pyelftools qemu-utils re2c rsync scons squashfs-tools subversion sudo swig texinfo \
-        uglifyjs unzip vim wget xmlto xxd zlib1g-dev; \
+        uglifyjs unzip vim wget xmlto xxd zlib1g-dev zstd; \
     apt-get update; \
     apt-get autoclean -y; \
     apt-get autopurge -y; \
