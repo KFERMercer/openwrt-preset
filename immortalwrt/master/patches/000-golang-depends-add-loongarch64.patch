@@ -1,8 +1,28 @@
+diff --git a/feeds/packages/lang/golang/golang-package.mk b/feeds/packages/lang/golang/golang-package.mk
+index cc00505..6d41c4b 100644
+--- a/feeds/packages/lang/golang/golang-package.mk
++++ b/feeds/packages/lang/golang/golang-package.mk
+@@ -200,6 +200,7 @@ GO_PKG_TARGET_VARS= \
+ 	GO386="$(GO_386)" \
+ 	GOAMD64="$(GO_AMD64)" \
+ 	GOARM="$(GO_ARM)" \
++	GOLOONG64="$(GO_LOONG64)" \
+ 	GOMIPS="$(GO_MIPS)" \
+ 	GOMIPS64="$(GO_MIPS64)" \
+ 	GOPPC64="$(GO_PPC64)" \
 diff --git a/feeds/packages/lang/golang/golang-values.mk b/feeds/packages/lang/golang/golang-values.mk
-index 1584d22..a2a10f0 100644
+index 1584d22..915caa3 100644
 --- a/feeds/packages/lang/golang/golang-values.mk
 +++ b/feeds/packages/lang/golang/golang-values.mk
-@@ -128,10 +128,11 @@ unexport \
+@@ -61,6 +61,7 @@ unexport \
+   GOARM \
+   GO386 \
+   GOAMD64 \
++  GOLOONG64 \
+   GOMIPS \
+   GOMIPS64 \
+   GOPPC64 \
+@@ -128,10 +129,11 @@ unexport \
  go_arch=$(subst \
    aarch64,arm64,$(subst \
    i386,386,$(subst \
@@ -15,7 +35,7 @@ index 1584d22..a2a10f0 100644
  
  GO_OS:=linux
  GO_ARCH:=$(call go_arch,$(ARCH))
-@@ -202,7 +203,7 @@ endif
+@@ -202,7 +204,7 @@ endif
  
  # Target Go
  
