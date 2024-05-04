@@ -30,6 +30,7 @@ WORKDIR /work
 ENV OPENWRT_REPO    "https://github.com/immortalwrt/immortalwrt.git"
 ENV OPENWRT_BRANCH  "openwrt-23.05"
 ENV PRESET_REPO     "https://github.com/KFERMercer/openwrt-preset.git"
+ENV PRESET_ARCH     "x86_64"
 ENV COREUSE         "$(nproc)"
 ENV DEVMOD          "0"
 ENV SHELL           "/bin/bash"
@@ -45,7 +46,7 @@ CMD  \
             patch -p1 -N --verbose --reject-file=/dev/null < /work/$(basename "${PRESET_REPO%.git}")/$(basename "${OPENWRT_REPO%.git}")/${OPENWRT_BRANCH}/patches/$i || exit 1; \
         done; \
         ./scripts/feeds install -a || exit 1; \
-        cat /work/$(basename "${PRESET_REPO%.git}")/$(basename "${OPENWRT_REPO%.git}")/${OPENWRT_BRANCH}/x86_64.config > ./.config || exit 1; \
+        cat /work/$(basename "${PRESET_REPO%.git}")/$(basename "${OPENWRT_REPO%.git}")/${OPENWRT_BRANCH}/${PRESET_ARCH}.config > ./.config || exit 1; \
         make defconfig || exit 1; \
         make download -j8 V=s && make -j${COREUSE} || make -j${COREUSE} || make -j${COREUSE} || make -j1 V=s || exit 1; \
         exit 0; \
