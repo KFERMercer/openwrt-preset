@@ -1,8 +1,21 @@
 diff --git a/feeds/packages/lang/golang/golang-values.mk b/feeds/packages/lang/golang/golang-values.mk
-index 1584d22..8c8aa00 100644
+index 1584d22..a2a10f0 100644
 --- a/feeds/packages/lang/golang/golang-values.mk
 +++ b/feeds/packages/lang/golang/golang-values.mk
-@@ -202,7 +202,7 @@ endif
+@@ -128,10 +128,11 @@ unexport \
+ go_arch=$(subst \
+   aarch64,arm64,$(subst \
+   i386,386,$(subst \
++  loongarch64,loong64,$(subst \
+   mipsel,mipsle,$(subst \
+   mips64el,mips64le,$(subst \
+   powerpc64,ppc64,$(subst \
+-  x86_64,amd64,$(1)))))))
++  x86_64,amd64,$(1))))))))
+ 
+ GO_OS:=linux
+ GO_ARCH:=$(call go_arch,$(ARCH))
+@@ -202,7 +203,7 @@ endif
  
  # Target Go
  
