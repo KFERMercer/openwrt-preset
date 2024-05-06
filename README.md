@@ -25,6 +25,15 @@
     -v /path/to/workdir:/work \
     openwrt-buildbot
     ```
+    for loongarch64:
+    ```shell
+    docker run -it --rm \
+    -e COREUSE="$(nproc)" \
+    -e OPENWRT_BRANCH="master" \
+    -e PRESET_ARCH="loongarch64" \
+    -v /path/to/workdir:/work \
+    openwrt-buildbot
+    ```
 
 ### Host (if you're a dirty dog):
 
