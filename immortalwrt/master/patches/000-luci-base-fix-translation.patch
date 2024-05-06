@@ -1,8 +1,8 @@
 diff --git a/feeds/luci/modules/luci-base/po/zh_Hans/base.po b/feeds/luci/modules/luci-base/po/zh_Hans/base.po
-index 9611cd6..f873b6e 100644
+index 89b6746..25e1b71 100644
 --- a/feeds/luci/modules/luci-base/po/zh_Hans/base.po
 +++ b/feeds/luci/modules/luci-base/po/zh_Hans/base.po
-@@ -2674,10 +2674,6 @@ msgstr "域名白名单"
+@@ -2758,10 +2758,6 @@ msgstr "域名白名单"
  msgid "Don't Fragment"
  msgstr "禁止分片"
  
@@ -10,10 +10,10 @@ index 9611cd6..f873b6e 100644
 -msgid "Down"
 -msgstr "下线"
 -
- #: protocols/luci-proto-bonding/htdocs/luci-static/resources/protocol/bonding.js:403
+ #: protocols/luci-proto-bonding/htdocs/luci-static/resources/protocol/bonding.js:408
  msgid "Down Delay"
  msgstr "下行延迟"
-@@ -10428,10 +10424,6 @@ msgstr "未打标签"
+@@ -10649,10 +10645,6 @@ msgstr "未打标签"
  msgid "Untitled peer"
  msgstr "无标题的对端"
  
@@ -21,6 +21,6 @@ index 9611cd6..f873b6e 100644
 -msgid "Up"
 -msgstr "在线"
 -
- #: protocols/luci-proto-bonding/htdocs/luci-static/resources/protocol/bonding.js:411
+ #: protocols/luci-proto-bonding/htdocs/luci-static/resources/protocol/bonding.js:416
  msgid "Up Delay"
  msgstr "Up 延迟"
