@@ -3,7 +3,7 @@ FROM debian:latest
 ARG DEBIAN_FRONTEND noninteractive
 
 RUN \
-    sed -i 's/deb.debian.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list.d/debian.sources; \
+    sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list.d/debian.sources; \
     apt-get update; \
     apt-get full-upgrade -y; \
     apt-get install -y \
