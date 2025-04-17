@@ -6,10 +6,10 @@ FROM debian:latest
 
 ARG DEBIAN_FRONTEND noninteractive
 
-RUN \
-    sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list.d/debian.sources; \
-    apt-get update; \
-    apt-get full-upgrade -y; \
+RUN <<EOT
+    sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list.d/debian.sources
+    apt-get update
+    apt-get full-upgrade -y
     apt-get install -y \
         ack antlr3 asciidoc autoconf automake autopoint bash-completion binutils bison build-essential \
         bzip2 ccache clang cmake cpio curl device-tree-compiler ecj fastjar flex gawk gettext gcc-multilib \
@@ -18,18 +18,19 @@ RUN \
         libncursesw5-dev libpython3-dev libreadline-dev libssl-dev libtool lld llvm lrzsz mkisofs msmtp \
         nano ninja-build p7zip-full patch pkgconf python-is-python3 python3-pip python3-ply python3-docutils \
         python3-pyelftools qemu-utils re2c rsync scons squashfs-tools subversion sudo swig texinfo \
-        uglifyjs unzip vim wget xmlto xxd zlib1g-dev zstd; \
-    apt-get update; \
-    apt-get autoclean -y; \
-    apt-get autopurge -y; \
-    useradd -m mom; \
-    mkdir -p /etc/sudoers.d; \
-    echo 'mom ALL=NOPASSWD: ALL' > /etc/sudoers.d/mom; \
+        uglifyjs unzip vim wget xmlto xxd zlib1g-dev zstd
+    apt-get update
+    apt-get autoclean -y
+    apt-get autopurge -y
+    useradd -m mom
+    mkdir -p /etc/sudoers.d
+    echo 'mom ALL=NOPASSWD: ALL' > /etc/sudoers.d/mom
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /var/log/* /run/shm/* /dev/shm/*
+EOT
 
 USER mom
 WORKDIR /work
 
-ENV SHELL /bin/bash
+ENV SHELL="/bin/bash"
 
 CMD ["/bin/bash"]
