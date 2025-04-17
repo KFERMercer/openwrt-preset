@@ -20,17 +20,8 @@
     ```shell
     docker run -it --rm \
     -e COREUSE="$(nproc)" \
-    -e OPENWRT_BRANCH="openwrt-23.05" \
-    -e PRESET_ARCH="x86_64" \
-    -v /path/to/workdir:/work \
-    openwrt-buildbot
-    ```
-    for loongarch64:
-    ```shell
-    docker run -it --rm \
-    -e COREUSE="$(nproc)" \
-    -e OPENWRT_BRANCH="master" \
-    -e PRESET_ARCH="loongarch64" \
+    -e OPENWRT_BRANCH="openwrt-24.10" \
+    -e PRESET_TARGET="x86_64" \
     -v /path/to/workdir:/work \
     openwrt-buildbot
     ```
