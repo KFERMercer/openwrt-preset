@@ -11,15 +11,19 @@ RUN <<EOT
     apt-get update
     apt-get full-upgrade -y
     apt-get install -y \
-        ack antlr3 asciidoc autoconf automake autopoint bash-completion binutils bison build-essential \
-        bzip2 ccache clang cmake cpio curl device-tree-compiler ecj fastjar flex gawk gettext gcc-multilib \
-        g++-multilib git gnutls-dev gperf haveged help2man intltool lib32gcc-s1 libc6-dev-i386 libelf-dev \
-        libglib2.0-dev libgmp3-dev libltdl-dev libmpc-dev libmpfr-dev libncurses5-dev libncursesw5 \
-        libncursesw5-dev libpython3-dev libreadline-dev libssl-dev libtool lld llvm lrzsz mkisofs msmtp \
-        nano ninja-build p7zip-full patch pkgconf python-is-python3 python3-pip python3-ply python3-docutils \
-        python3-pyelftools qemu-utils re2c rsync scons squashfs-tools subversion sudo swig texinfo \
-        uglifyjs unzip vim wget xmlto xxd zlib1g-dev zstd
-    apt-get update
+        ack antlr3 asciidoc autoconf automake autopoint bash-completion binutils bison \
+        build-essential bzip2 ccache clang cmake cpio curl device-tree-compiler ecj fastjar \
+        flex g++-multilib gawk gcc-multilib genisoimage gettext git gnutls-dev gperf haveged \
+        help2man intltool lib32gcc-s1 libc6-dev-i386 libelf-dev libglib2.0-dev libgmp3-dev \
+        libltdl-dev libmpc-dev libmpfr-dev libncurses-dev libpython3-dev libreadline-dev \
+        libssl-dev libtool lld llvm lrzsz msmtp nano ninja-build p7zip-full patch pkgconf \
+        python-is-python3 python3-docutils python3-pip python3-ply python3-pyelftools \
+        qemu-utils re2c rsync scons squashfs-tools subversion sudo swig texinfo uglifyjs \
+        unzip vim wget xmlto xxd zlib1g-dev zstd \
+        || {
+            echo "Failed to deploy dependencies!"
+		    exit 1
+        }
     apt-get autoclean -y
     apt-get autopurge -y
     useradd -m mom
