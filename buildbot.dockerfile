@@ -33,9 +33,9 @@ USER mom
 WORKDIR /work
 
 ENV OPENWRT_REPO="https://github.com/immortalwrt/immortalwrt.git"
-ENV OPENWRT_BRANCH=
+ENV OPENWRT_BRANCH="openwrt-24.10"
 ENV PRESET_REPO="https://github.com/KFERMercer/openwrt-preset.git"
-ENV PRESET_TARGET=
+ENV PRESET_TARGET="x86_64"
 ENV COREUSE=
 ENV DEVMOD="0"
 ENV SHELL="/bin/bash"
@@ -44,7 +44,7 @@ COPY --chmod=755 <<-'EOF' /usr/bin/runner
     #!/usr/bin/env sh
     [ -d "$(basename "${PRESET_REPO%.git}")" ] || git clone ${PRESET_REPO} --depth=1 || exit 1
     [ -d "$(basename "${OPENWRT_REPO%.git}")" ] || git clone ${OPENWRT_REPO} --depth=1 -b ${OPENWRT_BRANCH} || exit 1
-    [ "${COREUSE}" -gt 0 ] 2>/dev/null || COREUSE=$(nproc)
+    [ -z "${COREUSE}" ] && COREUSE="$(nproc)"
     [ "${DEVMOD}" -eq 0 ] && {
         cd $(basename "${OPENWRT_REPO%.git}") || exit 1
         ./scripts/feeds update -a || exit 1
