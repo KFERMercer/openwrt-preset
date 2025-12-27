@@ -48,8 +48,8 @@ COPY --chmod=755 <<-'EOF' /usr/bin/runner
     [ "${DEVMOD}" -eq 0 ] && {
         cd $(basename "${OPENWRT_REPO%.git}") || exit 1
         ./scripts/feeds update -a || exit 1
-        for i in "$(ls /work/$(basename "${PRESET_REPO%.git}")/$(basename "${OPENWRT_REPO%.git}")/${OPENWRT_BRANCH}/patches/)"; do \
-            patch -p1 -N --verbose --reject-file=/dev/null < /work/"$(basename "${PRESET_REPO%.git}")"/"$(basename "${OPENWRT_REPO%.git}")"/"${OPENWRT_BRANCH}"/patches/$i || exit 1
+        for PATCHFILE in "$(ls /work/$(basename "${PRESET_REPO%.git}")/$(basename "${OPENWRT_REPO%.git}")/${OPENWRT_BRANCH}/patches/)"; do
+            patch -p1 -N --verbose --reject-file=/dev/null < /work/"$(basename "${PRESET_REPO%.git}")"/"$(basename "${OPENWRT_REPO%.git}")"/"${OPENWRT_BRANCH}"/patches/"${PATCHFILE}"
         done
         ./scripts/feeds install -a || exit 1
         cat /work/"$(basename "${PRESET_REPO%.git}")"/"$(basename "${OPENWRT_REPO%.git}")"/"${OPENWRT_BRANCH}"/"${PRESET_TARGET}".config > ./.config || exit 1
