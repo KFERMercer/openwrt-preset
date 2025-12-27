@@ -3,29 +3,29 @@ FROM debian:latest
 ARG DEBIAN_FRONTEND noninteractive
 
 RUN <<EOT
-    sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list.d/debian.sources
-    apt-get update
-    apt-get full-upgrade -y
-    apt-get install -y \
-        ack antlr3 asciidoc autoconf automake autopoint bash-completion binutils bison \
-        build-essential bzip2 ccache clang cmake cpio curl device-tree-compiler ecj fastjar \
-        flex g++-multilib gawk gcc-multilib genisoimage gettext git gnutls-dev gperf haveged \
-        help2man intltool lib32gcc-s1 libc6-dev-i386 libelf-dev libglib2.0-dev libgmp3-dev \
-        libltdl-dev libmpc-dev libmpfr-dev libncurses-dev libpython3-dev libreadline-dev \
-        libssl-dev libtool lld llvm lrzsz msmtp nano ninja-build p7zip-full patch pkgconf \
-        python-is-python3 python3-docutils python3-pip python3-ply python3-pyelftools \
-        qemu-utils re2c rsync scons squashfs-tools subversion sudo swig texinfo uglifyjs \
-        unzip vim wget xmlto xxd zlib1g-dev zstd \
-        || {
-            echo "Failed to deploy dependencies!"
-		    exit 1
-        }
-    apt-get autoclean -y
-    apt-get autopurge -y
-    useradd -m mom
-    mkdir -p /etc/sudoers.d
-    echo 'mom ALL=NOPASSWD: ALL' > /etc/sudoers.d/mom
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /var/log/* /run/shm/* /dev/shm/*
+	sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list.d/debian.sources
+	apt-get update
+	apt-get full-upgrade -y
+	apt-get install -y \
+		ack antlr3 asciidoc autoconf automake autopoint bash-completion binutils bison \
+		build-essential bzip2 ccache clang cmake cpio curl device-tree-compiler ecj fastjar \
+		flex g++-multilib gawk gcc-multilib genisoimage gettext git gnutls-dev gperf haveged \
+		help2man intltool lib32gcc-s1 libc6-dev-i386 libelf-dev libglib2.0-dev libgmp3-dev \
+		libltdl-dev libmpc-dev libmpfr-dev libncurses-dev libpython3-dev libreadline-dev \
+		libssl-dev libtool lld llvm lrzsz msmtp nano ninja-build p7zip-full patch pkgconf \
+		python-is-python3 python3-docutils python3-pip python3-ply python3-pyelftools \
+		qemu-utils re2c rsync scons squashfs-tools subversion sudo swig texinfo uglifyjs \
+		unzip vim wget xmlto xxd zlib1g-dev zstd \
+		|| {
+			echo "Failed to deploy dependencies!"
+			exit 1
+		}
+	apt-get autoclean -y
+	apt-get autopurge -y
+	useradd -m mom
+	mkdir -p /etc/sudoers.d
+	echo 'mom ALL=NOPASSWD: ALL' > /etc/sudoers.d/mom
+	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /var/log/* /run/shm/* /dev/shm/*
 EOT
 
 # COPY ~/.gnupg /home/mom/
@@ -41,25 +41,36 @@ ENV DEVMOD="0"
 ENV SHELL="/bin/bash"
 
 COPY --chmod=755 <<-'EOF' /usr/bin/runner
-    #!/usr/bin/env sh
-    [ -d "$(basename "${PRESET_REPO%.git}")" ] || git clone ${PRESET_REPO} --depth=1 || exit 1
-    [ -d "$(basename "${OPENWRT_REPO%.git}")" ] || git clone ${OPENWRT_REPO} --depth=1 -b ${OPENWRT_BRANCH} || exit 1
-    [ -z "${COREUSE}" ] && COREUSE="$(nproc)"
-    [ "${DEVMOD}" -eq 0 ] && {
-        cd $(basename "${OPENWRT_REPO%.git}") || exit 1
-        ./scripts/feeds update -a || exit 1
-        for PATCHFILE in "$(ls /work/$(basename "${PRESET_REPO%.git}")/$(basename "${OPENWRT_REPO%.git}")/${OPENWRT_BRANCH}/patches/)"; do
-            patch -p1 -N --verbose --reject-file=/dev/null < /work/"$(basename "${PRESET_REPO%.git}")"/"$(basename "${OPENWRT_REPO%.git}")"/"${OPENWRT_BRANCH}"/patches/"${PATCHFILE}"
-        done
-        ./scripts/feeds install -a || exit 1
-        cat /work/"$(basename "${PRESET_REPO%.git}")"/"$(basename "${OPENWRT_REPO%.git}")"/"${OPENWRT_BRANCH}"/"${PRESET_TARGET}".config > ./.config || exit 1
-        make defconfig || exit 1
-        make download -j8 V=s && make -j${COREUSE} || make -j${COREUSE} || make -j1 V=s || exit 1
-        exit 0
-    } || {
-        exec "${SHELL}" || exit 1
-    }
-    exit 0
+	#!/usr/bin/env sh
+
+	[ -d "$(basename "${PRESET_REPO%.git}")" ] || git clone ${PRESET_REPO} --depth=1
+	[ -d "$(basename "${OPENWRT_REPO%.git}")" ] || git clone ${OPENWRT_REPO} --depth=1 -b ${OPENWRT_BRANCH}
+
+	[ -z "${COREUSE}" ] && COREUSE="$(nproc)"
+
+	[ "${DEVMOD}" -eq 0 ] && {
+		cd $(basename "${OPENWRT_REPO%.git}")
+
+		./scripts/feeds update -a || exit 1
+
+		for PATCHFILE in "$(ls /work/$(basename "${PRESET_REPO%.git}")/$(basename "${OPENWRT_REPO%.git}")/${OPENWRT_BRANCH}/patches/)"; do
+			patch -p1 -N --verbose --reject-file=/dev/null < /work/"$(basename "${PRESET_REPO%.git}")"/"$(basename "${OPENWRT_REPO%.git}")"/"${OPENWRT_BRANCH}"/patches/"${PATCHFILE}"
+		done
+
+		./scripts/feeds install -a
+
+		cat /work/"$(basename "${PRESET_REPO%.git}")"/"$(basename "${OPENWRT_REPO%.git}")"/"${OPENWRT_BRANCH}"/"${PRESET_TARGET}".config > ./.config
+		make defconfig
+
+		make download -j8 || make download
+
+		make -j${COREUSE} || make -j${COREUSE} || make -j1 V=s || exit 1
+
+		exit 0
+	} || {
+		exec "${SHELL}" || exit 1
+	}
+	exit 0
 EOF
 
 ENTRYPOINT ["sh", "-c", "runner"]
