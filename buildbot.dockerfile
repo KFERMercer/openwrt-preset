@@ -33,7 +33,7 @@ USER mom
 WORKDIR /work
 
 ENV OPENWRT_REPO="https://github.com/immortalwrt/immortalwrt.git"
-ENV OPENWRT_BRANCH="openwrt-24.10"
+ENV OPENWRT_BRANCH="openwrt-25.12"
 ENV PRESET_REPO="https://github.com/KFERMercer/openwrt-preset.git"
 ENV PRESET_TARGET="x86_64"
 ENV COREUSE=
