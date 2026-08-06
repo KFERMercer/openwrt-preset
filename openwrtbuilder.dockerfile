@@ -37,4 +37,4 @@ WORKDIR /work
 
 ENV SHELL="/bin/bash"
 
-CMD ["/bin/bash"]
+ENTRYPOINT ["/bin/bash", "-c"]

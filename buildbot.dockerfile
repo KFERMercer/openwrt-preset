@@ -73,4 +73,4 @@ COPY --chmod=755 <<-'EOF' /usr/bin/runner
 	exit 0
 EOF
 
-ENTRYPOINT ["sh", "-c", "runner"]
+ENTRYPOINT ["/bin/bash", "-c", "runner"]
